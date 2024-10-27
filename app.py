@@ -88,7 +88,7 @@ def generate_prompt_template(prompt, assistant_partial):
     response = client.chat.completions.create(
         model=MODEL,
         messages=[{"role": "user", "content": full_prompt}],
-        temperature=0.2,
+        temperature=0.1,
     )
 
     completion = response.choices[0].message.content
@@ -131,10 +131,10 @@ def remove_unclosed_tags(text: str) -> str:
 
 
 def extract_prompt(metaprompt_response):
-    between_tags = extract_between_tags("Instructions", metaprompt_response)[0]
-    between_tags = remove_empty_tags(between_tags).strip()
-    between_tags = remove_unclosed_tags(between_tags).strip()
-    return between_tags
+    # metaprompt_response = remove_unclosed_tags(metaprompt_response).strip()
+    # metaprompt_response = remove_empty_tags(metaprompt_response).strip()
+    metaprompt_response = extract_between_tags("Instructions", metaprompt_response)[0]
+    return metaprompt_response
 
 
 def extract_variables(prompt):
@@ -147,7 +147,7 @@ def generate_assistant_output(prompt_with_variables):
     response = client.chat.completions.create(
         model=MODEL,
         messages=[{"role": "user", "content": prompt_with_variables}],
-        temperature=0.2,
+        temperature=0.1,
     )
     return response.choices[0].message.content
 

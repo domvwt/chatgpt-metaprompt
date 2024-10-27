@@ -104,14 +104,29 @@ To write your instructions, follow THESE steps:
 
 Note: Provide your instructions between the relevant tags. Do not use a code block and remember to close each section.
 Note: You must use ALL variables provided to you in the <Inputs> section in your <Instructions>.
-Note: When referencing variables in your <Instructions> (e.g., `{$VARIABLE}`), be aware that these will later be substituted with full values provided by a user. If a variable refers to reference text, do not use it in the middle of a sentence, for example.
-Note: You MUST provide any reference text between relevant tags (inside the <Instructions> section) so that it is available to the AI assistant. For example:
-<example>
+Note: When referencing variables in your <Instructions> (e.g., `{$VARIABLE}`), be aware that these will be substituted with full values automatically by the downstream system. You should not remind the user or assistant to do this.
+Note: If a variable refers to reference text, do not use it in the middle of a sentence.
+Note: You MUST provide all reference text between relevant tags (inside the <Instructions> section) so that it is available to the downstream assistant.
+
+A good response should look like the following example (NOT a numbered list):
+```
+<Inputs>
+[inputs provided by the user as well as additional required information] 
+</Inputs>
+
+<Instructions Structure>
+[outline of how the instructions should be presented]
+</Instructions Structure>
+
 <Instructions>
-...
-<CUSTOMER_COMPLAINT>
-{$CUSTOMER_COMPLAINT}
-</CUSTOMER_COMPLAINT>
-...
+[explanation of the task and the assistant's role]
+<input_1>
+[description of input_1 and what it is for]
+{$INPUT_1}
+</input_1>
+<input_2>
+[description of input_2 and what it is for]
+{$INPUT_2}
+</input_2>
 </Instructions>
-</example>
+```
