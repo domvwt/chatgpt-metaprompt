@@ -102,7 +102,16 @@ To write your instructions, follow THESE steps:
 2. **<Instructions Structure>**: Briefly outline how you’ll structure the instructions, noting where you’ll include each variable.
 3. **<Instructions>**: Write the instructions for the AI assistant to follow in a structured manner.
 
+Note: Provide your instructions between the relevant tags. Do not use a code block and remember to close each section.
 Note: You must use ALL variables provided to you in the <Inputs> section in your <Instructions>.
 Note: When referencing variables in your <Instructions> (e.g., `{$VARIABLE}`), be aware that these will later be substituted with full values provided by a user. If a variable refers to reference text, do not use it in the middle of a sentence, for example.
-Note: You MUST provide any reference text between relevant tags so that it is available to the AI assistant. 
-Note: Provide your instructions between the relevant tags. Do not use a code block and remember to close each section.
+Note: You MUST provide any reference text between relevant tags (inside the <Instructions> section) so that it is available to the AI assistant. For example:
+<example>
+<Instructions>
+...
+<CUSTOMER_COMPLAINT>
+{$CUSTOMER_COMPLAINT}
+</CUSTOMER_COMPLAINT>
+...
+</Instructions>
+</example>
