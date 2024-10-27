@@ -32,7 +32,7 @@ else:
     st.error("Please enter your OpenAI API key.")
     st.stop()
 
-metaprompt = Path("./metaprompt.txt").read_text()
+metaprompt = Path("./metaprompt-short.txt").read_text()
 
 
 @st.cache_data
