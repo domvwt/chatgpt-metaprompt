@@ -110,9 +110,31 @@ def remove_empty_tags(text):
     return re.sub(r"\n<(\w+)>\s*</\1>\n", "", text, flags=re.DOTALL)
 
 
+def remove_unclosed_tags(text: str) -> str:
+    tags = re.findall(r"<(/?\w+)>", text)
+    stack = []
+    closed_text = text
+
+    for tag in tags:
+        if not tag.startswith("/"):
+            stack.append(tag)
+        else:
+            if stack and stack[-1] == tag[1:]:
+                stack.pop()
+            else:
+                closed_text = re.sub(f"<{tag}>", "", closed_text)
+
+    for tag in stack:
+        closed_text = re.sub(f"<{tag}>", "", closed_text)
+
+    return closed_text
+
+
 def extract_prompt(metaprompt_response):
     between_tags = extract_between_tags("Instructions", metaprompt_response)[0]
-    return remove_empty_tags(between_tags).strip()
+    between_tags = remove_empty_tags(between_tags).strip()
+    between_tags = remove_unclosed_tags(between_tags).strip()
+    return between_tags
 
 
 def extract_variables(prompt):
