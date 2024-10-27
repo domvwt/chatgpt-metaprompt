@@ -96,9 +96,13 @@ def generate_prompt_template(prompt, assistant_partial):
 
 
 def extract_between_tags(tag: str, string: str, strip: bool = False) -> list[str]:
-    ext_list = re.findall(f"<{tag}>(.+?)</{tag}>", string, re.DOTALL)
+    # Ensure we escape the tag to avoid conflicts with special characters in regex
+    tag_pattern = re.compile(f"<{re.escape(tag)}>(.*?)</{re.escape(tag)}>", re.DOTALL)
+    ext_list = tag_pattern.findall(string)
+
     if strip:
         ext_list = [e.strip() for e in ext_list]
+
     return ext_list
 
 
@@ -106,23 +110,9 @@ def remove_empty_tags(text):
     return re.sub(r"\n<(\w+)>\s*</\1>\n", "", text, flags=re.DOTALL)
 
 
-def strip_last_sentence(text):
-    sentences = text.split(". ")
-    if sentences[-1].startswith("Let me know"):
-        sentences = sentences[:-1]
-        result = ". ".join(sentences)
-        if result and not result.endswith("."):
-            result += "."
-        return result
-    else:
-        return text
-
-
 def extract_prompt(metaprompt_response):
     between_tags = extract_between_tags("Instructions", metaprompt_response)[0]
-    return between_tags[:1000] + strip_last_sentence(
-        remove_empty_tags(remove_empty_tags(between_tags[1000:]).strip()).strip()
-    )
+    return remove_empty_tags(between_tags).strip()
 
 
 def extract_variables(prompt):
@@ -151,6 +141,14 @@ if st.button("Generate Prompt Template"):
         generated_text = generate_prompt_template(prompt, assistant_partial)
 
         st.session_state["generated_text"] = generated_text
+
+        # If <Instructions is not closed, assume this section is not terminated.
+        INSTRUCTIONS_END = "</Instructions>"
+        if generated_text and INSTRUCTIONS_END not in generated_text:
+            generated_text += INSTRUCTIONS_END
+
+        with st.expander("Response"):
+            st.code(generated_text, language="markdown")
 
         extracted_prompt_template = extract_prompt(generated_text)
         variables_in_prompt = extract_variables(extracted_prompt_template)
