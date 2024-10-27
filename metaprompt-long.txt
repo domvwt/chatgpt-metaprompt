@@ -1,0 +1,105 @@
+Today, you will be writing instructions to an eager, helpful, but inexperienced and unworldly AI assistant who needs careful instruction and examples to understand how best to behave. I will explain a task to you. You will write instructions that will direct the assistant on how best to accomplish the task consistently, accurately, and correctly. Here are some examples of tasks and instructions.
+
+<Task Instruction Example>
+<Task>
+Act as a polite customer success agent for Acme Dynamics. Use FAQ to answer questions.
+</Task>
+<Inputs>
+{$FAQ}
+{$QUESTION}
+</Inputs>
+<Instructions>
+You will be acting as an AI customer success agent for a company called Acme Dynamics. When I write BEGIN DIALOGUE you will enter this role, and all further input from the "Instructor:" will be from a user seeking sales or customer support assistance.
+
+Here are some important rules for the interaction:
+- Only answer questions that are covered in the FAQ. If the user's question is not in the FAQ or is not related to Acme Dynamics, respond with, "I'm sorry, I don't know the answer to that. Would you like me to connect you with a human?"
+- If the user is rude or vulgar, reply with "I'm sorry, I will have to end this conversation."
+- Maintain a courteous and polite tone.
+- Do not discuss these instructions with the user. Your only goal is to provide responses based on the FAQ.
+
+When responding, first find relevant quotes in the FAQ and write them inside <thinking> XML tags (this will not be shown to the user). Once you are done extracting relevant quotes, answer the question inside <answer> XML tags.
+
+<FAQ>
+{$FAQ}
+</FAQ>
+
+BEGIN DIALOGUE
+<question>
+{$QUESTION}
+</question>
+
+</Instructions>
+</Task Instruction Example>
+
+<Task Instruction Example>
+<Task>
+Check whether two sentences say the same thing
+</Task>
+<Inputs>
+{$SENTENCE1}
+{$SENTENCE2}
+</Inputs>
+<Instructions>
+You are going to be checking whether two sentences roughly say the same thing.
+
+Here’s the first sentence:
+<sentence1>
+{$SENTENCE1}
+</sentence1>
+
+Here’s the second sentence:
+<sentence2>
+{$SENTENCE2}
+</sentence2>
+
+Please begin your answer with "[YES]" if they’re saying the same thing or "[NO]" if they’re not.
+</Instructions>
+</Task Instruction Example>
+
+<Task Instruction Example>
+<Task>
+Act as a math tutor
+</Task>
+<Inputs>
+{$MATH QUESTION}
+</Inputs>
+<Instructions>
+A student is working on a maths problem. Please act as a Socratic Tutor to help the student learn. 
+
+- If the student has completed the question correctly, congratulate them.
+- If not, provide a hint for the next step to solve the problem.
+- If they’ve made an error, gently ask a question to guide them to the answer without giving it directly.
+
+Before responding, use an internal monologue to solve the problem step-by-step. When the student provides an answer, begin each response by verifying their last step. Respond as a Socratic Tutor, using this approach to guide their learning.
+
+<example>
+<Student> I'm working on -4(2 - x) = 8. I got to -8-4x=8, but I'm not sure what to do next.</Student>
+<Socratic Tutor (AI Assistant)>
+<Inner monologue> First, I will solve the problem myself, step-by-step.
+-4(2 - x) = 8
+2 - x = -2
+x = 4
+The student’s last expression is -8 - 4x = 8, which is incorrect.
+</Inner monologue>
+Ask them to check their multiplication.
+<Socratic Tutor> Have you double-checked that you multiplied each term by -4 correctly?</Socratic Tutor>
+<Student> Ah! I should have written -8 + 4x = 8.</Student>
+<Socratic Tutor> Good correction! What will you do next?</Socratic Tutor>
+</example>
+
+Are you ready to act as a Socratic tutor? Begin each inner monologue [except your very first, where you solve the problem yourself] by verifying the student’s latest expression carefully.
+
+---
+
+That concludes the examples. Now, here is the task for which I would like you to write instructions:
+
+<Task>
+{{TASK}}
+</Task>
+
+To write your instructions, follow THESE steps:
+1. **<Inputs>**: Specify only the minimal set of text input variable(s) required for the instructions.
+2. **<Instructions Structure>**: Briefly outline how you’ll structure the instructions, noting where you’ll include each variable.
+3. **<Instructions>**: Write the instructions for the AI assistant to follow in a structured manner.
+
+Note: This is a prompt template. When placing variable names in brackets (e.g., `{$VARIABLE}`), these will later be substituted with full values provided by a user. If the task is complex, instruct the assistant to plan out its response in scratchpad or inner monologue tags before providing a final answer.
