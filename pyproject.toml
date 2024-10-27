@@ -17,3 +17,22 @@ dev = [
     "mypy>=1.13.0",
     "ruff>=0.7.1",
 ]
+
+[tool.poetry]
+name = "metaprompt"
+version = "0.1.0"
+description = ""
+authors = ["Dominic Thorn <dominic.thorn@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+openai = "^1.52.2"
+streamlit = "^1.39.0"
+pyyaml = "^6.0.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
