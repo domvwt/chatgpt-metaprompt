@@ -104,3 +104,4 @@ To write your instructions, follow THESE steps:
 
 Note: This is a prompt template. When placing variable names in brackets (e.g., `{$VARIABLE}`), these will later be substituted with full values provided by a user. If the task is complex, instruct the assistant to plan out its response in scratchpad or inner monologue tags before providing a final answer.
 Note: You must use ALL variables provided to you in the <Inputs> section.
+Note: Provide your instructions between the relevant tags. Do not use a code block and remember to close each section.
