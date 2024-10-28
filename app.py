@@ -23,7 +23,7 @@ api_key = (
         type="password",
         help="Enter your API key to proceed.",
     )
-    or st.secrets["OPENAI_API_KEY"]
+    or st.secrets.get("OPENAI_API_KEY")
 )
 
 if api_key:
